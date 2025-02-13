@@ -1,4 +1,4 @@
-import logo from "./logo.svg";
+import logo from "../assets/logo.svg";
 
 import React, { useState, useEffect } from "react";
 import "./App.css";
@@ -13,14 +13,14 @@ import {
   View,
   withAuthenticator,
 } from "@aws-amplify/ui-react";
-import { listNotes } from "./graphql/queries";
+import { listNotes } from "../graphql/queries";
 import {
   createNote as createNoteMutation,
   deleteNote as deleteNoteMutation,
-} from "./graphql/mutations";
+} from "../graphql/mutations";
 import { generateClient } from 'aws-amplify/api';
 import { uploadData, getUrl, remove } from 'aws-amplify/storage';
-import conf from './aws-exports'
+import conf from '../assets/aws-exports'
 import {Amplify} from 'aws-amplify'
 Amplify.configure(conf)
 const client = generateClient();
