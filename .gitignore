@@ -42,3 +42,14 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+# GraphQL generated files
+src/graphql/mutations.js
+src/graphql/queries.js
+src/graphql/schema.json
+src/graphql/subscriptions.js
+
+# UI components generated files
+src/ui-components/NoteCreateForm.d.ts
+src/ui-components/NoteCreateForm.jsx
+src/ui-components/NoteUpdateForm.d.ts
+src/ui-components/NoteUpdateForm.jsx

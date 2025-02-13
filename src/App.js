@@ -1,33 +1,4 @@
-// import logo from "./logo.svg";
-// import "@aws-amplify/ui-react/styles.css";
-// import {
-//   withAuthenticator,
-//   Button,
-//   Heading,
-//   Image,
-//   View,
-//   Card,
-// } from "@aws-amplify/ui-react";
-
-// import conf from './aws-exports'
-// import {Amplify} from 'aws-amplify'
-// Amplify.configure(conf)
-
-// function App({ signOut }) {
-//   return (
-//     <View className="App">
-//       <Card>
-//         <Image src={logo} className="App-logo" alt="logo" />
-//         <Heading level={1}>We now have Auth!</Heading>
-//       </Card>
-//       <Button onClick={signOut}>Sign Out</Button>
-//     </View>
-//   );
-// }
-
-// export default withAuthenticator(App);
-
-// Put your code below this line.
+import logo from "./logo.svg";
 
 import React, { useState, useEffect } from "react";
 import "./App.css";
@@ -56,7 +27,14 @@ const client = generateClient();
 
 const App = ({ signOut }) => {
   const [notes, setNotes] = useState([]);
-
+  const styles = {
+    inputFile: {
+      alignSelf: "center",
+      '@media (max-width: 600px)': {
+        width: '100%', // スマホ向けのスタイル
+      },
+    },
+  };
   useEffect(() => {
     fetchNotes();
   }, []);
@@ -111,7 +89,7 @@ const App = ({ signOut }) => {
     <View className="App">
       <Heading level={1}>My Notes App</Heading>
       <View as="form" margin="3rem 0" onSubmit={createNote}>
-        <Flex direction="row" justifyContent="center">
+        <Flex direction="column" justifyContent="center">
           <TextField
             name="name"
             placeholder="Note Name"
@@ -128,11 +106,18 @@ const App = ({ signOut }) => {
             variation="quiet"
             required
           />
+          {/* <View
+            name="image"
+            as="input"
+            type="file"
+            style={{ alignSelf: "center" }} // スタイルを変更
+          /> */}
+
           <View
             name="image"
             as="input"
             type="file"
-            style={{ alignSelf: "end" }}
+            style={styles.inputFile}
           />
           <Button type="submit" variation="primary">
             Create Note
@@ -156,7 +141,7 @@ const App = ({ signOut }) => {
               <Image
                 src={note.image}
                 alt={`visual aid for ${notes.name}`}
-                style={{ width: 400 }}
+                style={{ width: 200 }}
               />
             )}
             <Button variation="link" onClick={() => deleteNote(note)}>
@@ -170,6 +155,8 @@ const App = ({ signOut }) => {
   );
 };
 
-export default withAuthenticator(App);
+//export default withAuthenticator(App, { includeGreetings: false });
+export default withAuthenticator(App, { includeSignUp: false });
 
+//export default withAuthenticator(App);
 
