@@ -1,9 +1,8 @@
-import logo from "../assets/logo.svg";
+// import { listNotes } from "../../graphql/queries";
 import React, { useState, useEffect } from "react";
-import "./App.css";
-import Footer from "../components/Footer/Footer.tsx"; 
-import Searcher from "../components/Search/Search.tsx"; 
-import "@aws-amplify/ui-react/styles.css";
+import conf from '../../assets/aws-exports'
+import {Amplify} from 'aws-amplify'
+import { generateClient } from 'aws-amplify/api';
 import {
   Button,
   Flex,
@@ -14,35 +13,18 @@ import {
   View,
   withAuthenticator,
 } from "@aws-amplify/ui-react";
-import { listNotes } from "../graphql/queries";
+// import { SearchFieldButtonProps } from "@aws-amplify/ui-react";
+import { listNotes } from "../../graphql/queries";
 import {
   createNote as createNoteMutation,
   deleteNote as deleteNoteMutation,
-} from "../graphql/mutations";
-import { generateClient } from 'aws-amplify/api';
+} from "../../graphql/mutations";
 import { uploadData, getUrl, remove } from 'aws-amplify/storage';
-import conf from '../assets/aws-exports'
-import {Amplify} from 'aws-amplify'
+
 Amplify.configure(conf)
 const client = generateClient();
 
-const App = ({ signOut }) => {
-  const [currentPage, setCurrentPage] = useState('home');
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'calendar':
-        return <div>user</div>;
-      case 'star':
-        return <div>star</div>;
-      case 'search':
-        return <Searcher />;
-      case 'user':
-        return <div>user</div>;
-      default:
-        return <div>user</div>;
-    }
-  };
-
+const Searcher: React.FC = () => {
   const [notes, setNotes] = useState([]);
   const styles = {
     inputFile: {
@@ -69,7 +51,6 @@ const App = ({ signOut }) => {
     );
     setNotes(notesFromAPI);
   }
-
   async function createNote(event) {
     event.preventDefault();
     const form = new FormData(event.target);
@@ -100,41 +81,9 @@ const App = ({ signOut }) => {
       variables: { input: { id } },
     });
   }
-
+  
   return (
-    <View className="App">
-      <Heading level={1}>My Notes App</Heading>
-      <View as="form" margin="3rem 0" onSubmit={createNote}>
-        <Flex direction="column" justifyContent="center">
-          <TextField
-            name="name"
-            placeholder="Note Name"
-            label="Note Name"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <TextField
-            name="description"
-            placeholder="Note Description"
-            label="Note Description"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <View
-            name="image"
-            as="input"
-            type="file"
-            style={styles.inputFile}
-          />
-          <Button type="submit" variation="primary">
-            Create Note
-          </Button>
-        </Flex>
-      </View>
-      {/* <Heading level={2}>Current Notes</Heading> */}
-      {/* <View margin="3rem 0">
+       <View margin="3rem 0">
         {notes.map((note) => (
           <Flex
             key={note.id || note.name}
@@ -158,11 +107,8 @@ const App = ({ signOut }) => {
             </Button>
           </Flex>
         ))}
-      </View> */}
-      {renderPage()}
-      <Footer signOut={signOut ?? (() => {})} onSelectPage={setCurrentPage} />
-    </View>
+      </View>
   );
 };
 
-export default withAuthenticator(App, { hideSignUp: true });
+export default Searcher;
