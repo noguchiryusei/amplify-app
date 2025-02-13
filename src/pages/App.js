@@ -1,7 +1,7 @@
 import logo from "../assets/logo.svg";
-
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import Footer from "../components/Footer/Footer.tsx"; 
 import "@aws-amplify/ui-react/styles.css";
 import {
   Button,
@@ -26,12 +26,12 @@ Amplify.configure(conf)
 const client = generateClient();
 
 const App = ({ signOut }) => {
+  const [currentPage, setCurrentPage] = useState('home');
   const [notes, setNotes] = useState([]);
   const styles = {
     inputFile: {
-      alignSelf: "center",
-      '@media (max-width: 600px)': {
-        width: '100%', // スマホ向けのスタイル
+      '@media (maxWidth: 390px)': {
+        width: '100%',
       },
     },
   };
@@ -144,7 +144,7 @@ const App = ({ signOut }) => {
           </Flex>
         ))}
       </View>
-      <Button onClick={signOut}>Sign Out</Button>
+      <Footer signOut={signOut ?? (() => {})} onSelectPage={setCurrentPage} />
     </View>
   );
 };
