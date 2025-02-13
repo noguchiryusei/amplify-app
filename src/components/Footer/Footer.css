@@ -4,17 +4,16 @@
   bottom: 0;
   width: 100%;
   max-width: 390px; /* iPhone 14の最大幅を考慮 */
-  margin: 3 auto;
+  margin: 0 auto;
   display: flex;
   justify-content: space-around; /* 均等に配置 */
   background-color: #f8f9fa;
-  padding: 10px 15px; /* パディングを少し調整 */
+  padding: 10px 0; /* パディングを調整 */
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
 
-.footer-icons,
-.footer-auth {
+.footer-icons {
   display: flex;
   width: 100%;
   justify-content: space-around; /* 均等に配置 */
@@ -24,11 +23,12 @@
   background: none;
   border: none;
   color: #333;
-  font-size: 30px; /* アイコンサイズを微調整 */
+  font-size: 24px; /* アイコンサイズを調整 */
   cursor: pointer;
   transition: color 0.3s;
   flex-grow: 1; /* アイコンを均等に配置 */
   text-align: center; /* アイコンを中央に配置 */
+  padding: 10px 0; /* パディングを調整 */
 }
 
 .footer-button:hover {
