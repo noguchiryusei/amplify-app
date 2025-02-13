@@ -106,12 +106,6 @@ const App = ({ signOut }) => {
             variation="quiet"
             required
           />
-          {/* <View
-            name="image"
-            as="input"
-            type="file"
-            style={{ alignSelf: "center" }} // スタイルを変更
-          /> */}
 
           <View
             name="image"
@@ -141,7 +135,7 @@ const App = ({ signOut }) => {
               <Image
                 src={note.image}
                 alt={`visual aid for ${notes.name}`}
-                style={{ height: 100 }} // 幅と高さを小さく設定
+                style={{ height: 100 }}
               />
             )}
             <Button variation="link" onClick={() => deleteNote(note)}>
@@ -155,8 +149,4 @@ const App = ({ signOut }) => {
   );
 };
 
-//export default withAuthenticator(App, { includeGreetings: false });
-export default withAuthenticator(App, { includeSignUp: false });
-
-//export default withAuthenticator(App);
-
+export default withAuthenticator(App, { hideSignUp: true });
