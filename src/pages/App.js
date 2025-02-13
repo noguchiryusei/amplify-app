@@ -12,7 +12,7 @@ import {
 } from "@aws-amplify/ui-react";
 
 const App = ({ signOut }) => {
-  const [currentPage, setCurrentPage] = useState('home');
+  const [currentPage, setCurrentPage] = useState('calendar');
   const renderPage = () => {
     switch (currentPage) {
       case 'calendar':

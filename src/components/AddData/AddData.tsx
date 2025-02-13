@@ -2,6 +2,7 @@ import React from "react";
 import conf from '../../assets/aws-exports'
 import { Amplify } from 'aws-amplify'
 import { generateClient } from 'aws-amplify/api';
+import ResizeImage from 'resize-image';
 import {
   Button,
   Flex,
@@ -29,6 +30,18 @@ const AddData: React.FC = () => {
     event.preventDefault();
     const form = new FormData(event.target);
     const image = form.get("image");
+    const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
+
+    if (image && image.size > MAX_IMAGE_SIZE) {
+      // Handle error: image size exceeds maximum limit
+      // Resize the image to a smaller size
+      const resizedImage = await ResizeImage.resizeImage(image, MAX_IMAGE_SIZE);
+      if (resizedImage) {
+        data.image = resizedImage;
+      } else {
+        return;
+      }
+    }
     const data = {
       name: form.get("name"),
       description: form.get("description"),
