@@ -1,19 +1,14 @@
-// import { listNotes } from "../../graphql/queries";
 import React, { useState, useEffect } from "react";
 import conf from '../../assets/aws-exports'
-import {Amplify} from 'aws-amplify'
+import { Amplify } from 'aws-amplify'
 import { generateClient } from 'aws-amplify/api';
 import {
   Button,
   Flex,
-  Heading,
   Text,
-  TextField,
   Image,
   View,
-  withAuthenticator,
 } from "@aws-amplify/ui-react";
-// import { SearchFieldButtonProps } from "@aws-amplify/ui-react";
 import { listNotes } from "../../graphql/queries";
 import {
   createNote as createNoteMutation,
