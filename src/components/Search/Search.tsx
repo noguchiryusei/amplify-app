@@ -11,23 +11,16 @@ import {
 } from "@aws-amplify/ui-react";
 import { listNotes } from "../../graphql/queries";
 import {
-  createNote as createNoteMutation,
   deleteNote as deleteNoteMutation,
 } from "../../graphql/mutations";
-import { uploadData, getUrl, remove } from 'aws-amplify/storage';
+import {getUrl, remove } from 'aws-amplify/storage';
 
 Amplify.configure(conf)
 const client = generateClient();
 
 const Searcher: React.FC = () => {
   const [notes, setNotes] = useState([]);
-  const styles = {
-    inputFile: {
-      '@media (maxWidth: 390px)': {
-        width: '100%',
-      },
-    },
-  };
+
   useEffect(() => {
     fetchNotes();
   }, []);
@@ -46,27 +39,6 @@ const Searcher: React.FC = () => {
     );
     setNotes(notesFromAPI);
   }
-  async function createNote(event) {
-    event.preventDefault();
-    const form = new FormData(event.target);
-    const image = form.get("image");
-    const data = {
-      name: form.get("name"),
-      description: form.get("description"),
-      image: image.name,
-    };
-    if (!!data.image) await uploadData({
-      key: data.name,
-      data: image
-    });
-    await client.graphql({
-      query: createNoteMutation,
-      variables: { input: data },
-    });
-    fetchNotes();
-    event.target.reset();
-  }
-
   async function deleteNote({ id, name }) {
     const newNotes = notes.filter((note) => note.id !== id);
     setNotes(newNotes);
@@ -94,7 +66,7 @@ const Searcher: React.FC = () => {
               <Image
                 src={note.image}
                 alt={`visual aid for ${notes.name}`}
-                style={{ height: 100 }}
+                style={{ height: 60 }}
               />
             )}
             <Button variation="link" onClick={() => deleteNote(note)}>
