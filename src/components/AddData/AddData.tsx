@@ -24,16 +24,25 @@ const AddData: React.FC = () => {
     event.preventDefault();
     const form = new FormData(event.target);
     const image = form.get("image");
+    const icon = await compressImage(image);
 
     const data = {
       name: form.get("name"),
       description: form.get("description"),
+      icon: icon.name,
       image: image.name,
     };
-    if (!!data.image) uploadData({
+
+    if (!!data.image) {
+      await uploadData({
+      key: icon.name,
+      data: icon,
+      });
+      await uploadData({
       key: data.name,
-      data: await compressImage(image),
-    });
+      data: image,
+      });
+    }
     await client.graphql({
       query: createNoteMutation,
       variables: { input: data },
