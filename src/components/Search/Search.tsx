@@ -63,6 +63,9 @@ const Searcher: React.FC = () => {
           <Text as="strong" fontWeight={700}>
             {note.name}
           </Text>
+          <Text>
+            {note.date}
+          </Text>
           <Text as="span">
             {note.description}
           </Text>
@@ -77,7 +80,7 @@ const Searcher: React.FC = () => {
             <Image
               src={note.image}
               alt={`visual aid for ${note.name}`}
-              style={{ height: 60 }}
+              style={{ height: 300 }}
             />
           )}
           <Button variation="link" onClick={() => deleteNote(note)}>

@@ -9,7 +9,7 @@ export type compressImageType = {
 
 // optionsは必要に応じて調整する
 // https://github.com/Donaldcwl/browser-image-compression#api
-export const compressImage = async (
+export const compressImage =  async (
   file: File,
   options: compressImageType = {
     maxSizeMB: 0.05,
