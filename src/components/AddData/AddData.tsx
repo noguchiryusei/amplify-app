@@ -44,7 +44,7 @@ const AddData: React.FC = () => {
       data: icon,
       });
       await uploadData({
-      key: data.name,
+      key: image.name,
       data: image,
       });
     }

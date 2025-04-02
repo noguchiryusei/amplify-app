@@ -31,7 +31,7 @@ const Searcher: React.FC = () => {
     await Promise.all(
       notesFromAPI.map(async (note) => {
         if (note.image) {
-          const url = await getUrl({ key: note.name });
+          const url = await getUrl({ key: note.image });
           const icon = await getUrl({ key: note.icon });
           note.image = url.url;
           note.icon = icon.url; 
