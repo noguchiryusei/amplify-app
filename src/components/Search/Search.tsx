@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import conf from '../../assets/aws-exports'
-import { Amplify } from 'aws-amplify'
+import conf from '../../assets/aws-exports';
+import { Amplify } from 'aws-amplify';
 import { generateClient } from 'aws-amplify/api';
 import {
   Button,
@@ -13,13 +13,24 @@ import { listNotes } from "../../graphql/queries";
 import {
   deleteNote as deleteNoteMutation,
 } from "../../graphql/mutations";
-import {getUrl, remove } from 'aws-amplify/storage';
+import { getUrl, remove } from 'aws-amplify/storage';
 
-Amplify.configure(conf)
+Amplify.configure(conf);
 const client = generateClient();
 
+// Noteの型を定義
+type Note = {
+  id: string;
+  name: string;
+  date: string;
+  description: string;
+  icon?: string;
+  image?: string;
+};
+
 const Searcher: React.FC = () => {
-  const [notes, setNotes] = useState([]);
+  // useStateでnotesの型を指定
+  const [notes, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {
     fetchNotes();
@@ -27,21 +38,22 @@ const Searcher: React.FC = () => {
 
   async function fetchNotes() {
     const apiData = await client.graphql({ query: listNotes });
-    const notesFromAPI = apiData.data.listNotes.items;
+    const notesFromAPI: Note[] = (apiData as any).data.listNotes.items;
     await Promise.all(
       notesFromAPI.map(async (note) => {
         if (note.image) {
           const url = await getUrl({ key: note.image });
-          const icon = await getUrl({ key: note.icon });
-          note.image = url.url;
-          note.icon = icon.url; 
+          const icon = await getUrl({ key: note.icon as string }); // Specify the type of note.icon as string
+          note.image = url.url.toString();
+          note.icon = icon.url.toString(); 
         }
         return note;
       })
     );
     setNotes(notesFromAPI);
   }
-  async function deleteNote({ id, name }) {
+
+  async function deleteNote({ id, name }: { id: string, name: string }) {
     const newNotes = notes.filter((note) => note.id !== id);
     setNotes(newNotes);
     await remove({ key: name });
