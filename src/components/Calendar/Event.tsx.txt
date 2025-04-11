@@ -1,0 +1,12 @@
+// APIからデータを取得するための疑似関数
+export const fetchEvents = async (): Promise<Event> => {
+  // ダミーデータを返しています。実際にはここでAPIリクエストを行います。
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        5: "DBイベントA",
+        15: "DBイベントB"
+      });
+    }, 1000); // 1秒の遅延を加えて模擬します
+  });
+};

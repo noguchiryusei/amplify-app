@@ -1,0 +1,9 @@
+
+.react-calendar .react-calendar__tile:nth-child(7n) {
+  color: #00F;
+}
+ 
+
+.react-calendar .react-calendar__month-view__days__day--neighboringMonth {
+  color: #757575 !important;
+}
