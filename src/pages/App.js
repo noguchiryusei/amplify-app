@@ -4,6 +4,7 @@ import "./App.css";
 import Footer from "../components/Footer/Footer.tsx"; 
 import Searcher from "../components/Search/Search.tsx"; 
 import AddData from "../components/AddData/AddData.tsx"; 
+import CalemdarRender from "../components/Calendar/Calendar.tsx"; 
 import "@aws-amplify/ui-react/styles.css";
 import {
   Heading,
@@ -16,7 +17,7 @@ const App = ({ signOut }) => {
   const renderPage = () => {
     switch (currentPage) {
       case 'calendar':
-        return <Searcher />;
+        return <CalemdarRender />;
       case 'star':
         return <div>star</div>;
       case 'search':
