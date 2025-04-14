@@ -9,14 +9,32 @@ function CalendarRender() {
   const onChange = (newDate) => {
     setDate(newDate);
   };
+  const tileContent = ({ date, view }) => {
+    if (view === 'month') {
+      if (date.getDate()  === 5) {
+        return <img
+        src={`${process.env.PUBLIC_URL}/logo192.png`}
+        alt="example"
+        style={{
+          width: `${100 / 10}vw`,
+          height: `${100 / 20}vh`
+        }}
+      />;
+      }else{
+        return "test2\ntest";
+      }
+    }
+    return null;
+  };
 
   return (
     <div>
-      <h1>My Calendar</h1>
+      <h3>My Calendar</h3>
       <Calendar
         onChange={onChange}
         value={date}
         calendarType="gregory"
+        tileContent={tileContent}
       />
     </div>
   );
