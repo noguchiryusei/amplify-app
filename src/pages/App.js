@@ -21,7 +21,7 @@ const App = ({ signOut }) => {
       case 'star':
         return <div>star</div>;
       case 'search':
-        return <div>user</div>;
+        return <Searcher />;
       case 'pen':
         return <AddData />;
       default:

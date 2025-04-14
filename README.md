@@ -30,7 +30,10 @@ Your app is ready to be deployed!
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 ### `npm run eject`
-
+GraphQL endpoint: https://ux5ote6iarhcvbsjtiqfbh76au.appsync-api.ap-northeast-1.amazonaws.com/graphql
+GraphQL API KEY: da2-esquyjwlczcupm2p4qzsavugki
+s38ee08d02
+amplifyappb876c90aa33e41da9dda70750adc0aae
 **Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
 If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.

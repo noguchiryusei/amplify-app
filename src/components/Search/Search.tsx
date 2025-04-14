@@ -15,6 +15,7 @@ import {
 } from "../../graphql/mutations";
 import { getUrl, remove } from 'aws-amplify/storage';
 
+console.log("Amplify config", conf);
 Amplify.configure(conf);
 const client = generateClient();
 
