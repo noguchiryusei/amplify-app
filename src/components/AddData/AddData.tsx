@@ -28,15 +28,15 @@ const AddData: React.FC = () => {
     var icon;
     
 
-    if (!!image && image.type.startsWith("image/")) {
-      icon = await compressImage(image);
+    if (!!image && (image as File).type.startsWith("image/")) {
+      icon = await compressImage(image as File);
       const options: compressImageType = {
         maxSizeMB: 0.1,
         useWebWorker: true,
         initialQuality: 0.8,
         maxWidthOrHeight: 800,
       };
-      image = await compressImage(image, options);
+      image = await compressImage(image as File, options);
       
       
       await uploadData({
@@ -53,7 +53,7 @@ const AddData: React.FC = () => {
       description: form.get("description"),
       date: form.get("date"),
       icon: icon?.name,
-      image: image?.name,
+      image: (image as File)?.name,
     };
     await client.graphql({
       query: createNoteMutation,
@@ -66,16 +66,16 @@ const AddData: React.FC = () => {
        <View margin="3rem 0">
         <View as="form" margin="3rem 0" onSubmit={createNote}>
         <Flex direction="column" justifyContent="center">
-        <TextField
-          name="date"
-          placeholder="Note Name"
-          labelHidden
-          type="date"
-          label="Note Date" // Add the label prop with a value
-        />
+          <TextField
+            name="date"
+            placeholder="Note Name"
+            labelHidden
+            type="date"
+            label="Note Date"
+          />
           <TextField
             name="name"
-            placeholder="Note Name"
+            placeholder="料理名"
             label="Note Name"
             labelHidden
             variation="quiet"
@@ -83,8 +83,16 @@ const AddData: React.FC = () => {
           />
           <TextField
             name="description"
-            placeholder="Note Description"
+            placeholder="コメント"
             label="Note Description"
+            labelHidden
+            variation="quiet"
+            required
+          />
+          <TextField
+            name="link"
+            placeholder="リンク"
+            label="Note Link"
             labelHidden
             variation="quiet"
             required
