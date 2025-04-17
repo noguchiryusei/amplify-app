@@ -25,6 +25,7 @@ type Note = {
   year: string;
   month: string;
   day: string;
+  star: string;
   description: string;
   icon?: string;
   image?: string;
@@ -79,6 +80,9 @@ const Searcher: React.FC = () => {
           </Text>
           <Text>
             {note.year}年{note.month}月{note.day}日
+          </Text>
+          <Text>
+            {note.star}
           </Text>
           <Text as="span">
             {note.description}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from 'react';
 import conf from '../../assets/aws-exports'
 import { Amplify } from 'aws-amplify'
 import { generateClient } from 'aws-amplify/api';
@@ -12,21 +12,31 @@ import {
   createNote as createNoteMutation,
 } from "../../graphql/mutations";
 import { uploadData } from 'aws-amplify/storage';
-
+import StarRating from './StarRationg.js';
 import { compressImage, compressImageType } from "../../util/compress.ts"
 
 Amplify.configure(conf)
 const client = generateClient();
 
-const AddData: React.FC = () => {
+interface AddDataProps {
+  onSelectPage: (page: string) => void;
+}
 
+const AddData: React.FC<AddDataProps> = ({onSelectPage}) => {
+  const [selectedRating, setSelectedRating] = useState(0);
+  
+  const handleRatingUpdate = (rating) => {
+    setSelectedRating(rating);
+  };
+  
   async function createNote(event) {
     event.preventDefault();
     const form = new FormData(event.target);
     var image = form.get("image");
     var icon;
     
-
+    
+    
     if (!!image && (image as File).type.startsWith("image/")) {
       icon = await compressImage(image as File);
       const options: compressImageType = {
@@ -39,19 +49,20 @@ const AddData: React.FC = () => {
       
       
       await uploadData({
-      key: icon.name,
+        key: icon.name,
       data: icon,
       });
       await uploadData({
-      key: image.name,
-      data: image,
+        key: image.name,
+        data: image,
       });
     }
     const date = String(form.get("date"));
     const [year, month, day] = date ? date.split('-') : [null, null, null];
-
+    
     const data = {
       name: form.get("name"),
+      star: selectedRating,
       description: form.get("description"),
       year: year,
       month: month,
@@ -64,8 +75,9 @@ const AddData: React.FC = () => {
       variables: { input: data },
     });
     event.target.reset();
+    onSelectPage('calendar');
   }
-  
+    
   return (
        <View margin="3rem 0">
         <View as="form" margin="3rem 0" onSubmit={createNote}>
@@ -86,17 +98,18 @@ const AddData: React.FC = () => {
             required
           />
           <TextField
-            name="description"
-            placeholder="コメント"
-            label="Note Description"
+            name="link"
+            placeholder="リンク"
+            label="Note Link"
             labelHidden
             variation="quiet"
             required
           />
+          <StarRating onRatingChange={handleRatingUpdate} />
           <TextField
-            name="link"
-            placeholder="リンク"
-            label="Note Link"
+            name="description"
+            placeholder="コメント"
+            label="Note Description"
             labelHidden
             variation="quiet"
             required

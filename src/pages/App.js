@@ -23,7 +23,7 @@ const App = ({ signOut }) => {
       case 'search':
         return <Searcher />;
       case 'pen':
-        return <AddData />;
+        return <AddData  onSelectPage={setCurrentPage}/>;
       default:
         return <Searcher />;
     }
