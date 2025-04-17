@@ -15,7 +15,6 @@ import {
 } from "../../graphql/mutations";
 import { getUrl, remove } from 'aws-amplify/storage';
 
-console.log("Amplify config", conf);
 Amplify.configure(conf);
 const client = generateClient();
 
@@ -23,7 +22,9 @@ const client = generateClient();
 type Note = {
   id: string;
   name: string;
-  date: string;
+  year: string;
+  month: string;
+  day: string;
   description: string;
   icon?: string;
   image?: string;
@@ -44,7 +45,7 @@ const Searcher: React.FC = () => {
       notesFromAPI.map(async (note) => {
         if (note.image) {
           const url = await getUrl({ key: note.image });
-          const icon = await getUrl({ key: note.icon as string }); // Specify the type of note.icon as string
+          const icon = await getUrl({ key: note.icon as string });
           note.image = url.url.toString();
           note.icon = icon.url.toString(); 
         }
@@ -77,7 +78,7 @@ const Searcher: React.FC = () => {
             {note.name}
           </Text>
           <Text>
-            {note.date}
+            {note.year}年{note.month}月{note.day}日
           </Text>
           <Text as="span">
             {note.description}

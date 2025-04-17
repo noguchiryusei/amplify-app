@@ -7,7 +7,6 @@ import {
   Flex,
   TextField,
   View,
-  Input,
 } from "@aws-amplify/ui-react";
 import {
   createNote as createNoteMutation,
@@ -48,10 +47,15 @@ const AddData: React.FC = () => {
       data: image,
       });
     }
+    const date = String(form.get("date"));
+    const [year, month, day] = date ? date.split('-') : [null, null, null];
+
     const data = {
       name: form.get("name"),
       description: form.get("description"),
-      date: form.get("date"),
+      year: year,
+      month: month,
+      day: day,
       icon: icon?.name,
       image: (image as File)?.name,
     };
