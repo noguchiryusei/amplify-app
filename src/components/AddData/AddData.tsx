@@ -35,8 +35,6 @@ const AddData: React.FC<AddDataProps> = ({onSelectPage}) => {
     var image = form.get("image");
     var icon;
     
-    
-    
     if (!!image && (image as File).type.startsWith("image/")) {
       icon = await compressImage(image as File);
       const options: compressImageType = {
