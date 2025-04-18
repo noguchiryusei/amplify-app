@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import conf from '../../assets/aws-exports'
 import { Amplify } from 'aws-amplify'
 import { generateClient } from 'aws-amplify/api';
@@ -24,17 +24,23 @@ interface AddDataProps {
 
 const AddData: React.FC<AddDataProps> = ({onSelectPage}) => {
   const [selectedRating, setSelectedRating] = useState(0);
-  
+
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  const formattedDate = `${year}-${month}-${day}`;
+
   const handleRatingUpdate = (rating) => {
     setSelectedRating(rating);
   };
-  
+
   async function createNote(event) {
     event.preventDefault();
     const form = new FormData(event.target);
     var image = form.get("image");
     var icon;
-    
+
     if (!!image && (image as File).type.startsWith("image/")) {
       icon = await compressImage(image as File);
       const options: compressImageType = {
@@ -44,11 +50,10 @@ const AddData: React.FC<AddDataProps> = ({onSelectPage}) => {
         maxWidthOrHeight: 800,
       };
       image = await compressImage(image as File, options);
-      
-      
+
       await uploadData({
         key: icon.name,
-      data: icon,
+        data: icon,
       });
       await uploadData({
         key: image.name,
@@ -57,7 +62,7 @@ const AddData: React.FC<AddDataProps> = ({onSelectPage}) => {
     }
     const date = String(form.get("date"));
     const [year, month, day] = date ? date.split('-') : [null, null, null];
-    
+
     const data = {
       name: form.get("name"),
       star: selectedRating,
@@ -75,10 +80,10 @@ const AddData: React.FC<AddDataProps> = ({onSelectPage}) => {
     event.target.reset();
     onSelectPage('calendar');
   }
-    
+
   return (
-       <View margin="3rem 0">
-        <View as="form" margin="3rem 0" onSubmit={createNote}>
+    <View margin="3rem 0">
+      <View as="form" margin="3rem 0" onSubmit={createNote}>
         <Flex direction="column" justifyContent="center">
           <TextField
             name="date"
@@ -86,6 +91,7 @@ const AddData: React.FC<AddDataProps> = ({onSelectPage}) => {
             type="date"
             variation="quiet"
             label="Note Date"
+            defaultValue={formattedDate}
           />
           <TextField
             name="name"
@@ -120,7 +126,7 @@ const AddData: React.FC<AddDataProps> = ({onSelectPage}) => {
           </Button>
         </Flex>
       </View>
-      </View>
+    </View>
   );
 };
 
