@@ -20,7 +20,7 @@ function GetCalendarNotes({ year, month, onNotesFetched }) {
     };
 
     fetchNotes();
-  }, [year, month, onNotesFetched]);
+  }, [year, month]);
 
   return null;
 }

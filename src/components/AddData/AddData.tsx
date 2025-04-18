@@ -82,9 +82,9 @@ const AddData: React.FC<AddDataProps> = ({onSelectPage}) => {
         <Flex direction="column" justifyContent="center">
           <TextField
             name="date"
-            placeholder="Note Name"
             labelHidden
             type="date"
+            variation="quiet"
             label="Note Date"
           />
           <TextField
@@ -101,7 +101,6 @@ const AddData: React.FC<AddDataProps> = ({onSelectPage}) => {
             label="Note Link"
             labelHidden
             variation="quiet"
-            required
           />
           <StarRating onRatingChange={handleRatingUpdate} />
           <TextField
@@ -110,7 +109,6 @@ const AddData: React.FC<AddDataProps> = ({onSelectPage}) => {
             label="Note Description"
             labelHidden
             variation="quiet"
-            required
           />
           <View
             name="image"

@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css'; 
-import "./Calendar.css";
+import 'react-calendar/dist/Calendar.css';
+import './Calendar.css';
 import GetCalendarNotes from './CalendarSearch';
+import { listNotes } from "../../graphql/queries";
+import { getUrl } from 'aws-amplify/storage';
+import { generateClient } from 'aws-amplify/api';
+const client = generateClient();
 
 type Note = {
   id: string;
@@ -24,37 +28,48 @@ function CalendarRender() {
     setDate(newDate);
   };
 
-  const handleNotesFetched = (fetchedNotes) => {
-    setNotes(fetchedNotes);
+  // GetCalendarNotesからノートを受け取る
+  const handleNotesFetched = async (fetchedNotes: Note[]) => {
+    const updatedNotes = await Promise.all(
+      fetchedNotes.map(async (note) => {
+        if (note.icon) {
+          const iconUrl = await getUrl({ key: note.icon });
+          note.icon = iconUrl.url.toString();
+        }
+        return note;
+      })
+    );
+    
+    setNotes(updatedNotes);
   };
 
   const tileContent = ({ date, view }) => {
     if (view === 'month') {
-      const foundNotes = notes.filter(note => 
-        note.year === date.getFullYear() && 
-        note.month === (date.getMonth() + 1) && 
-        note.day === date.getDate()
+      const foundNotes = notes.filter(note =>
+        parseInt(note.year) === date.getFullYear() && 
+        parseInt(note.month) === (date.getMonth() + 1) && 
+        parseInt(note.day) === date.getDate()
       );
 
       if (foundNotes.length > 0) {
         return (
           <div>
             {foundNotes.map(note => (
-              <div key={note.id}>
-                <img
-                  src={`${process.env.PUBLIC_URL}/logo192.png`}
-                  alt={note.name}
-                  style={{ width: '20px', height: '20px' }}
-                />
-                <br />
-                {note.name}
+              <div key={note.id}> {/* unique keyを追加 */}
+                {note.icon && (
+                  <img
+                    src={note.icon}
+                    alt={note.name}
+                    style={{ width: '20px', height: '20px' }}
+                  />
+                )}
               </div>
             ))}
           </div>
         );
       }
     }
-    return null;  // デフォルトでは何も表示しない
+    return null;
   };
 
   return (
@@ -66,9 +81,8 @@ function CalendarRender() {
         calendarType="gregory"
         tileContent={tileContent}
       />
-
-      <GetCalendarNotes 
-        year={date.getFullYear()} 
+      <GetCalendarNotes
+        year={date.getFullYear()}
         month={date.getMonth() + 1}
         onNotesFetched={handleNotesFetched}
       />

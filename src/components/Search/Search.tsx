@@ -59,7 +59,7 @@ const Searcher: React.FC = () => {
   async function deleteNote({ id, name }: { id: string, name: string }) {
     const newNotes = notes.filter((note) => note.id !== id);
     setNotes(newNotes);
-    await remove({ key: name });
+    await remove({ key: id });
     await client.graphql({
       query: deleteNoteMutation,
       variables: { input: { id } },
