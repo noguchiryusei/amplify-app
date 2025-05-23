@@ -31,7 +31,12 @@ type Note = {
   image?: string;
 };
 
-const Searcher: React.FC = () => {
+interface SeacherProps {
+  onSelectPage: (page: string) => void;
+  setId: (page: string) => void;
+}
+
+const Searcher: React.FC<SeacherProps> = ({onSelectPage, setId}) => {
   // useStateでnotesの型を指定
   const [notes, setNotes] = useState<Note[]>([]);
 
@@ -76,29 +81,23 @@ const Searcher: React.FC = () => {
           alignItems="center"
         >
           <Text as="strong" fontWeight={700}>
+            <button onClick={() => 
+              {
+                setId(note.id);
+                onSelectPage('show')
+              }
+            }>
             {note.name}
+            </button>
           </Text>
           <Text>
             {note.year}年{note.month}月{note.day}日
-          </Text>
-          <Text>
-            {note.star}
-          </Text>
-          <Text as="span">
-            {note.description}
           </Text>
           {note.icon && (
             <Image
               src={note.icon}
               alt={`visual aid for ${note.name}`}
               style={{ height: 60 }}
-            />
-          )}
-          {note.image && (
-            <Image
-              src={note.image}
-              alt={`visual aid for ${note.name}`}
-              style={{ height: 300 }}
             />
           )}
           <Button variation="link" onClick={() => deleteNote(note)}>

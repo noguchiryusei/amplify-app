@@ -1,9 +1,9 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getNote = /* GraphQL */ `
-  query GetNote($id: ID!) {
-    getNote(id: $id) {
+export const getOneNote = (id) => /* GraphQL */ `
+  query GetNote {
+    getNote(id: "${id}") {
       id
       user
       name
