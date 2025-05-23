@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 // import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
 import './Calendar.css';
 import GetCalendarNotes from './CalendarSearch';
 import { getUrl } from 'aws-amplify/storage';
+import ReturnDate from './GetDate';
 
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid"
@@ -59,16 +59,18 @@ function CalendarRender() {
 
   const calendarApi = (calendarRef.current as any)?.getApi();
   function goNext() {
+    ReturnDate();
     calendarApi?.next();
     console.log("goNext");
   }
   function goBack() {
     calendarApi.prev()
-    console.log("goNext");
+    console.log("goBack");
   }
   function goToday() {
+    console.log(thisMonth());
     calendarApi.today()
-    console.log("goNext");
+    console.log("goToday");
   }
 
   // const tileContent = ({ date, view }: { date: Date, view: string }) => {
