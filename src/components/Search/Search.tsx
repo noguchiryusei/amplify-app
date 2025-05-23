@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import conf from '../../assets/aws-exports';
-import { Amplify } from 'aws-amplify';
+
 import { generateClient } from 'aws-amplify/api';
 import {
   Button,
@@ -15,7 +14,6 @@ import {
 } from "../../graphql/mutations";
 import { getUrl, remove } from 'aws-amplify/storage';
 
-Amplify.configure(conf);
 const client = generateClient();
 
 // Noteの型を定義

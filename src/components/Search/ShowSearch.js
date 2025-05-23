@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { generateClient } from 'aws-amplify/api';
 import { getUrl } from 'aws-amplify/storage';
+import StarView from '../Search/Star';
 import {
   Image,
 } from "@aws-amplify/ui-react";
@@ -38,9 +39,10 @@ const GetNoteById = ({ id }) => {
           variables: { id }
         });
         const noteFromAPI = apiData.data.getNote;
-        const url = await getUrl({ key: noteFromAPI.image });
-        console.log("URL:", url);
-        noteFromAPI.image = url.url.toString();
+        if (noteFromAPI.image) {
+          const url = await getUrl({ key: noteFromAPI.image });
+          noteFromAPI.image = url.url.toString();
+        }
         setNote(noteFromAPI);
       } catch (error) {
         console.error("Error fetching note:", error);
@@ -56,6 +58,7 @@ const GetNoteById = ({ id }) => {
     <div>
       <h2>{note.name}</h2>
       <p>{note.description}</p>
+      <StarView star={note.star}/>
       {note.image && (
         <Image
           src={note.image}
