@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect} from 'react';
 // import Calendar from 'react-calendar';
 import './Calendar.css';
 import GetCalendarNotes from './CalendarSearch';
@@ -46,9 +46,6 @@ function CalendarRender() {
     
     setNotes(updatedNotes);
   };
-
-  };
-
 
   return (
     <div>
