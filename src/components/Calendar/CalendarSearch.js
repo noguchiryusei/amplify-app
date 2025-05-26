@@ -4,7 +4,7 @@ import { generateClient } from 'aws-amplify/api';
 
 const client = generateClient();
 function GetCalendarNotes({ year, month, onNotesFetched }) {
-  useEffect(() => {
+
     const fetchNotes = async () => {
       try {
         const filter = { year: { eq: year }, month: { eq: month } };
@@ -20,8 +20,6 @@ function GetCalendarNotes({ year, month, onNotesFetched }) {
     };
 
     fetchNotes();
-  }, [year, month]);
-
   return null;
 }
 
