@@ -27,7 +27,7 @@ const App = ({ signOut }) => {
       case 'pen':
         return <AddData onSelectPage={setCurrentPage}/>;
       case 'show':
-        return <GetNoteById id={id}/>;
+        return <GetNoteById id={id} onSelectPage={setCurrentPage}/>;
       default:
         return <Searcher />;
     }

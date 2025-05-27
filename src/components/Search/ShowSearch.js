@@ -17,9 +17,7 @@ const getNoteQuery = `
       star
       description
       link
-      year
-      month
-      day
+      date
       createdAt
       updatedAt
       __typename
@@ -28,7 +26,7 @@ const getNoteQuery = `
 `;
 
 const client = generateClient();
-const GetNoteById = ({ id }) => {
+const GetNoteById = ({ id, onSelectPage }) => {
   const [note, setNote] = useState(null);
 
   useEffect(() => {
@@ -66,7 +64,7 @@ const GetNoteById = ({ id }) => {
           style={{ height: 300 }}
         />
       )}
-      
+      <button  onClick={() => onSelectPage('search')}>もどる</button>
     </div>
   );
 };

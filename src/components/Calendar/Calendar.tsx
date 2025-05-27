@@ -1,18 +1,14 @@
 import React, { useState, useRef, useEffect} from 'react';
 import './Calendar.css';
 import GetCalendarNotes from './CalendarSearch';
-// import ChangeNotes from './changeDate';
 import { getUrl } from 'aws-amplify/storage';
-
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid"
 
 type Note = {
   id: string;
   name: string;
-  year: string;
-  month: string;
-  day: string;
+  date: string;
   star: string;
   description: string;
   icon?: string;
@@ -31,10 +27,6 @@ function CalendarRender() {
       onNotesFetched: handleNotesFetched
     });
   }, [startDate, endDate]);
-
-  // useEffect(() => {
-  //   ChangeNotes();
-  // }, [])
 
   const handleNotesFetched = async (fetchedNotes: Note[]) => {
     const updatedNotes = await Promise.all(
@@ -76,7 +68,7 @@ function CalendarRender() {
 
           const events = notes.map(note => ({
             title: note.name,
-            start: `${note.year}-${String(note.month).padStart(2, '0')}-${String(note.day).padStart(2, '0')}`,
+            start: `${note.date}`,
             extendedProps: {
               description: note.description,
               icon: note.icon,

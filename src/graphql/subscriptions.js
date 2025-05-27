@@ -12,9 +12,6 @@ export const onCreateNote = /* GraphQL */ `
       star
       description
       link
-      year
-      month
-      day
       date
       createdAt
       updatedAt
@@ -33,9 +30,6 @@ export const onUpdateNote = /* GraphQL */ `
       star
       description
       link
-      year
-      month
-      day
       date
       createdAt
       updatedAt
@@ -54,9 +48,6 @@ export const onDeleteNote = /* GraphQL */ `
       star
       description
       link
-      year
-      month
-      day
       date
       createdAt
       updatedAt

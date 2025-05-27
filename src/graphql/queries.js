@@ -7,17 +7,11 @@ export const getOneNote = (id) => /* GraphQL */ `
       id
       user
       name
-      id
-      user
-      name
       image
       icon
       star
       description
       link
-      year
-      month
-      day
       date
       createdAt
       updatedAt
@@ -41,9 +35,6 @@ export const listNotes = /* GraphQL */ `
         star
         description
         link
-        year
-        month
-        day
         date
         createdAt
         updatedAt

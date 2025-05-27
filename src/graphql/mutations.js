@@ -15,9 +15,6 @@ export const createNote = /* GraphQL */ `
       star
       description
       link
-      year
-      month
-      day
       date
       createdAt
       updatedAt
@@ -39,9 +36,6 @@ export const updateNote = /* GraphQL */ `
       star
       description
       link
-      year
-      month
-      day
       date
       createdAt
       updatedAt
@@ -63,9 +57,6 @@ export const deleteNote = /* GraphQL */ `
       star
       description
       link
-      year
-      month
-      day
       date
       createdAt
       updatedAt

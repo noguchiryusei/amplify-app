@@ -20,9 +20,7 @@ const client = generateClient();
 type Note = {
   id: string;
   name: string;
-  year: string;
-  month: string;
-  day: string;
+  date: string;
   star: string;
   description: string;
   icon?: string;
@@ -89,7 +87,7 @@ const Searcher: React.FC<SeacherProps> = ({onSelectPage, setId}) => {
             </button>
           </Text>
           <Text>
-            {note.year}年{note.month}月{note.day}日
+            {note.date}
           </Text>
           {note.icon && (
             <Image
