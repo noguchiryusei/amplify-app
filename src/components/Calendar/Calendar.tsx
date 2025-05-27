@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect} from 'react';
-// import Calendar from 'react-calendar';
 import './Calendar.css';
 import GetCalendarNotes from './CalendarSearch';
+// import ChangeNotes from './changeDate';
 import { getUrl } from 'aws-amplify/storage';
-import ReturnDate from './GetDate';
 
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid"
@@ -22,17 +21,21 @@ type Note = {
 
 function CalendarRender() {
   const calendarRef = useRef(null)
-  const [date, setDate] = useState(() => new Date());
+  const [startDate, setStartDate] = useState(() => new Date());
+  const [endDate, setEndDate] = useState(() => new Date());
   const [notes, setNotes] = useState<Note[]>([]);
   useEffect(() => {
     GetCalendarNotes({
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
+      startDate: startDate,
+      endDate: endDate,
       onNotesFetched: handleNotesFetched
     });
-  }, [date]);
-  
-  // GetCalendarNotesからノートを受け取る
+  }, [startDate, endDate]);
+
+  // useEffect(() => {
+  //   ChangeNotes();
+  // }, [])
+
   const handleNotesFetched = async (fetchedNotes: Note[]) => {
     const updatedNotes = await Promise.all(
       fetchedNotes.map(async (note) => {
@@ -64,8 +67,11 @@ function CalendarRender() {
             month:"short"
         }}
         events = {(fetchInfo, successCallback, failureCallback) => {
-          if (date.getTime() !== fetchInfo['start'].getTime()) {
-            setDate(fetchInfo['start']);
+          if (startDate.getTime() !== fetchInfo['start'].getTime()) {
+            setStartDate(fetchInfo['start']);
+          }
+          if (endDate.getTime() !== fetchInfo['end'].getTime()) {
+            setEndDate(fetchInfo['end']);
           }
 
           const events = notes.map(note => ({

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import conf from '../../assets/aws-exports'
 import { Amplify } from 'aws-amplify'
 import { generateClient } from 'aws-amplify/api';
@@ -61,15 +61,14 @@ const AddData: React.FC<AddDataProps> = ({onSelectPage}) => {
       });
     }
     const date = String(form.get("date"));
-    const [year, month, day] = date ? date.split('-') : [null, null, null];
+    // const [year, month, day] = date ? date.split('-') : [null, null, null];
+    console.log("date", date);
 
     const data = {
       name: form.get("name"),
       star: selectedRating,
       description: form.get("description"),
-      year: year,
-      month: month,
-      day: day,
+      date: date,
       icon: icon?.name,
       image: (image as File)?.name,
     };

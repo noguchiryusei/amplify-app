@@ -18,6 +18,7 @@ export const createNote = /* GraphQL */ `
       year
       month
       day
+      date
       createdAt
       updatedAt
       __typename
@@ -41,6 +42,7 @@ export const updateNote = /* GraphQL */ `
       year
       month
       day
+      date
       createdAt
       updatedAt
       __typename
@@ -64,6 +66,7 @@ export const deleteNote = /* GraphQL */ `
       year
       month
       day
+      date
       createdAt
       updatedAt
       __typename

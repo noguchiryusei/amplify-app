@@ -7,6 +7,9 @@ export const getOneNote = (id) => /* GraphQL */ `
       id
       user
       name
+      id
+      user
+      name
       image
       icon
       star
@@ -15,6 +18,7 @@ export const getOneNote = (id) => /* GraphQL */ `
       year
       month
       day
+      date
       createdAt
       updatedAt
       __typename
@@ -40,6 +44,7 @@ export const listNotes = /* GraphQL */ `
         year
         month
         day
+        date
         createdAt
         updatedAt
         __typename
