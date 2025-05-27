@@ -61,8 +61,6 @@ const AddData: React.FC<AddDataProps> = ({onSelectPage}) => {
       });
     }
     const date = String(form.get("date"));
-    // const [year, month, day] = date ? date.split('-') : [null, null, null];
-    console.log("date", date);
 
     const data = {
       name: form.get("name"),

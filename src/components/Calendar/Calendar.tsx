@@ -17,9 +17,10 @@ type Note = {
 
 function CalendarRender() {
   const calendarRef = useRef(null)
-  const [startDate, setStartDate] = useState(() => new Date());
-  const [endDate, setEndDate] = useState(() => new Date());
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [notes, setNotes] = useState<Note[]>([]);
+
   useEffect(() => {
     GetCalendarNotes({
       startDate: startDate,
@@ -59,12 +60,8 @@ function CalendarRender() {
             month:"short"
         }}
         events = {(fetchInfo, successCallback, failureCallback) => {
-          if (startDate.getTime() !== fetchInfo['start'].getTime()) {
-            setStartDate(fetchInfo['start']);
-          }
-          if (endDate.getTime() !== fetchInfo['end'].getTime()) {
-            setEndDate(fetchInfo['end']);
-          }
+          setStartDate(fetchInfo['startStr']);
+          setEndDate(fetchInfo['endStr']);
 
           const events = notes.map(note => ({
             title: note.name,
