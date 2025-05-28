@@ -33,7 +33,6 @@ interface SeacherProps {
 }
 
 const Searcher: React.FC<SeacherProps> = ({onSelectPage, setId}) => {
-  // useStateでnotesの型を指定
   const [notes, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {

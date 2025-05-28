@@ -1,9 +1,13 @@
 import React, { useState, useRef, useEffect} from 'react';
-import './Calendar.css';
-import GetCalendarNotes from './CalendarSearch';
 import { getUrl } from 'aws-amplify/storage';
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid"
+import GetCalendarNotes from './CalendarSearch';
+import interactionPlugin from "@fullcalendar/interaction";
+import './Calendar.css';
+import { Calendar } from '@fullcalendar/core';
+
+
 
 type Note = {
   id: string;
@@ -15,13 +19,19 @@ type Note = {
   image?: string;
 };
 
-function CalendarRender() {
+interface CalendarProps {
+  onSelectPage: (page: string) => void;
+  setId: (id: string) => void;
+}
+
+const CalendarRender: React.FC<CalendarProps> = ({onSelectPage, setId}) => {
   const calendarRef = useRef(null)
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [notes, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {
+    if (!startDate || !endDate) return;
     GetCalendarNotes({
       startDate: startDate,
       endDate: endDate,
@@ -50,7 +60,7 @@ function CalendarRender() {
         allDayText="終日"
         height="80%"
         ref={calendarRef}
-        plugins={[dayGridPlugin]}
+        plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         slotDuration="00:30:00"
         selectable={true}
@@ -59,23 +69,24 @@ function CalendarRender() {
             year:"numeric",
             month:"short"
         }}
-        events = {(fetchInfo, successCallback, failureCallback) => {
+        events = {(fetchInfo, successCallback) => {
           setStartDate(fetchInfo['startStr']);
           setEndDate(fetchInfo['endStr']);
 
           const events = notes.map(note => ({
             title: note.name,
             start: `${note.date}`,
-            extendedProps: {
-              description: note.description,
-              icon: note.icon,
-              image: note.image
-            }
+            id: note.id
           }));
+
           successCallback(events);
         }}
-        // eventClick={}//ユーザーがイベントをクリックしたときにトリガーされます。
-        // select={}//日時が選択されるとトリガーされる
+        eventClick={(info) => 
+          {
+            setId(info.event.id);
+            onSelectPage('show')
+          }
+        }
     />
     </div>
   );

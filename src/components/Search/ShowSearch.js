@@ -28,7 +28,6 @@ const getNoteQuery = `
 const client = generateClient();
 const GetNoteById = ({ id, onSelectPage }) => {
   const [note, setNote] = useState(null);
-
   useEffect(() => {
     const getNote = async () => {
       try {

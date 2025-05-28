@@ -19,7 +19,7 @@ const App = ({ signOut }) => {
   const renderPage = () => {
     switch (currentPage) {
       case 'calendar':
-        return <CalendarRender />;
+        return <CalendarRender onSelectPage={setCurrentPage} setId={setId}/>;
       case 'star':
         return <div>star</div>;
       case 'search':
