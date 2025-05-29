@@ -26,7 +26,7 @@ const getNoteQuery = `
 `;
 
 const client = generateClient();
-const GetNoteById = ({ id, onSelectPage }) => {
+const GetNoteById = ({ id, onSelectPage, setTargetDate, returnData }) => {
   const [note, setNote] = useState(null);
   useEffect(() => {
     const getNote = async () => {
@@ -63,7 +63,20 @@ const GetNoteById = ({ id, onSelectPage }) => {
           style={{ height: 300 }}
         />
       )}
-      <button  onClick={() => onSelectPage('search')}>もどる</button>
+      <div>
+        <a href={note.link}>リンク</a>
+      </div>
+      <div>
+        <button  onClick={() => {
+          if (returnData.length > 0) {
+            onSelectPage('search');
+          }else {
+            onSelectPage('calendar');
+            setTargetDate(note.date);
+          }
+        }
+        }>もどる</button>
+      </div>
     </div>
   );
 };

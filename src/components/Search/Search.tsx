@@ -30,14 +30,20 @@ type Note = {
 interface SeacherProps {
   onSelectPage: (page: string) => void;
   setId: (page: string) => void;
+  setReturnData: (data: Note[]) => void;
+  returnData: Note[];
 }
 
-const Searcher: React.FC<SeacherProps> = ({onSelectPage, setId}) => {
+const Searcher: React.FC<SeacherProps> = ({onSelectPage, setId, setReturnData, returnData}) => {
   const [notes, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {
-    fetchNotes();
-  }, []);
+    if (returnData && returnData.length > 0) {
+      setNotes(returnData);
+    }else {
+      fetchNotes();
+    }
+  }, [returnData]);
 
   async function fetchNotes() {
     const apiData = await client.graphql({ query: listNotes });
@@ -80,6 +86,7 @@ const Searcher: React.FC<SeacherProps> = ({onSelectPage, setId}) => {
               {
                 setId(note.id);
                 onSelectPage('show')
+                setReturnData(notes);
               }
             }>
             {note.name}

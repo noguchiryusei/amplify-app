@@ -6,6 +6,7 @@ import GetCalendarNotes from './CalendarSearch';
 import interactionPlugin from "@fullcalendar/interaction";
 import './Calendar.css';
 import { Calendar } from '@fullcalendar/core';
+import { s } from '@fullcalendar/core/internal-common';
 
 
 
@@ -22,13 +23,17 @@ type Note = {
 interface CalendarProps {
   onSelectPage: (page: string) => void;
   setId: (id: string) => void;
+  initialDateFromShow: string;
 }
 
-const CalendarRender: React.FC<CalendarProps> = ({onSelectPage, setId}) => {
+const CalendarRender: React.FC<CalendarProps> = ({onSelectPage, setId, initialDateFromShow}) => {
   const calendarRef = useRef(null)
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [notes, setNotes] = useState<Note[]>([]);
+
+  const today = new Date().toISOString().split('T')[0];
+  const initialDate = initialDateFromShow || today;
 
   useEffect(() => {
     if (!startDate || !endDate) return;
@@ -62,9 +67,9 @@ const CalendarRender: React.FC<CalendarProps> = ({onSelectPage, setId}) => {
         ref={calendarRef}
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
-        slotDuration="00:30:00"
         selectable={true}
         weekends={true}
+        initialDate={initialDate}
         titleFormat={{
             year:"numeric",
             month:"short"

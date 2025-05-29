@@ -69,6 +69,7 @@ const AddData: React.FC<AddDataProps> = ({onSelectPage}) => {
       date: date,
       icon: icon?.name,
       image: (image as File)?.name,
+      link: form.get("link"),
     };
     await client.graphql({
       query: createNoteMutation,
