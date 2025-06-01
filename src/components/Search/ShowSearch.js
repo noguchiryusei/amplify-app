@@ -26,7 +26,7 @@ const getNoteQuery = `
 `;
 
 const client = generateClient();
-const GetNoteById = ({ id, onSelectPage, setTargetDate, returnData }) => {
+const GetNoteById = ({ id, onSelectPage, setTargetDate, returnData, setEditData }) => {
   const [note, setNote] = useState(null);
   useEffect(() => {
     const getNote = async () => {
@@ -76,6 +76,13 @@ const GetNoteById = ({ id, onSelectPage, setTargetDate, returnData }) => {
           }
         }
         }>もどる</button>
+      </div>
+      <div>
+        <button  onClick={() => {
+            onSelectPage('edit');
+            setEditData(note);
+        }
+        }>編集</button>
       </div>
     </div>
   );
