@@ -106,7 +106,7 @@ const AddData: React.FC<AddDataProps> = ({onSelectPage}) => {
             labelHidden
             variation="quiet"
           />
-          <StarRating onRatingChange={handleRatingUpdate} />
+          <StarRating star={0} onRatingChange={handleRatingUpdate} />
           <TextField
             name="description"
             placeholder="コメント"

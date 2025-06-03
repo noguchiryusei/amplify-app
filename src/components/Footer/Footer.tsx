@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Amplify } from 'aws-amplify';
 import awsExports from '../../assets/aws-exports';
 import { FaCalendar, FaSearch, FaStar, FaPen, FaSignOutAlt } from 'react-icons/fa';
@@ -14,26 +14,23 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({ signOut, onSelectPage, resetData }) => {
-
+  const clickFooterButton = (page: string) => {
+    resetData && resetData();
+    onSelectPage(page)
+  }
   return (
     <footer className="footer">
       <div className="footer-icons">
-        <button className="footer-button" onClick={() => { 
-          resetData && resetData();
-          onSelectPage('pen')}}>
+        <button className="footer-button" onClick={() => clickFooterButton('pen')}>
           <FaPen />
         </button>
-        <button className="footer-button" onClick={() => { 
-          resetData && resetData();
-          onSelectPage('calendar')}}>
+        <button className="footer-button" onClick={() => clickFooterButton('calendar')}>
           <FaCalendar />
         </button>
         <button className="footer-button" onClick={() => onSelectPage('search')}>
           <FaSearch />
         </button>
-        <button className="footer-button" onClick={() => { 
-          resetData && resetData();
-          onSelectPage('star')}}>
+        <button className="footer-button" onClick={() => clickFooterButton('star')}>
           <FaStar />
         </button>
         <button onClick={() => signOut && signOut()} className="footer-button">

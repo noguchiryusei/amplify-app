@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { use, useState, useEffect } from 'react';
 
-function StarRating({ onRatingChange }) {
+function StarRating({ star, onRatingChange }) {
   const [rating, setRating] = useState(0);
+  useEffect(() => {
+    if (star) {
+      setRating(star);
+    }
+  }, [star]);
 
   const handleRatingChange = (newRating) => {
     setRating(newRating);

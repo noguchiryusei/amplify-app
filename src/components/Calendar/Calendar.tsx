@@ -86,6 +86,8 @@ const CalendarRender: React.FC<CalendarProps> = ({onSelectPage, setId, initialDa
 
           successCallback(events);
         }}
+        //usecallback
+        //usememo
         eventClick={(info) => 
           {
             setId(info.event.id);

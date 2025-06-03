@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import conf from '../../assets/aws-exports'
 import { Amplify } from 'aws-amplify'
 import { generateClient } from 'aws-amplify/api';
@@ -12,7 +12,7 @@ import {
   createNote as createNoteMutation,
 } from "../../graphql/mutations";
 import { uploadData } from 'aws-amplify/storage';
-import StarRating from '../Search/Star.js';
+import StarRating from '../AddData/StarRationg.js';
 import { compressImage, compressImageType } from "../../util/compress.ts"
 
 type Note = {
@@ -23,6 +23,7 @@ type Note = {
   description: string;
   icon?: string;
   image?: string;
+  link: string;
 };
 
 Amplify.configure(conf)
@@ -35,13 +36,16 @@ interface EditDataProps {
 
 const EditData: React.FC<EditDataProps> = ({onSelectPage, editData}) => {
   const [selectedRating, setSelectedRating] = useState(0);
+  const [formData, setFormData] = useState(editData || {});
 
   const today = new Date();
   const year = today.getFullYear();
   const month = String(today.getMonth() + 1).padStart(2, '0');
   const day = String(today.getDate()).padStart(2, '0');
   const formattedDate = `${year}-${month}-${day}`;
-
+  useEffect(() => {
+  setSelectedRating(Number(editData?.star) || 0);
+  }, [editData]);
   const handleRatingUpdate = (rating) => {
     setSelectedRating(rating);
   };
@@ -90,13 +94,22 @@ const EditData: React.FC<EditDataProps> = ({onSelectPage, editData}) => {
     onSelectPage('calendar');
   }
 
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   return (
     <View margin="3rem 0">
-      <View as="form" margin="3rem 0" onSubmit={createNote}>
+      <View as="form" margin="3rem 0" onSubmit={() => createNote(formData)}>
         <Flex direction="column" justifyContent="center">
           <TextField
             name="date"
-            value={editData.date}
+            value={formData.date || ''}
+            onChange={handleInputChange}
             labelHidden
             type="date"
             variation="quiet"
@@ -105,7 +118,8 @@ const EditData: React.FC<EditDataProps> = ({onSelectPage, editData}) => {
           />
           <TextField
             name="name"
-            value={editData.name}
+            value={formData.name || ''}
+            onChange={handleInputChange}
             placeholder="料理名"
             label="Note Name"
             labelHidden
@@ -114,16 +128,18 @@ const EditData: React.FC<EditDataProps> = ({onSelectPage, editData}) => {
           />
           <TextField
             name="link"
-            value={editData.link}
+            value={formData.link || ''}
+            onChange={handleInputChange}
             placeholder="リンク"
             label="Note Link"
             labelHidden
             variation="quiet"
           />
-          <StarRating onRatingChange={handleRatingUpdate} />
+          <StarRating star={selectedRating} onRatingChange={handleRatingUpdate} />
           <TextField
             name="description"
-            value={editData.description}
+            value={formData.description || ''}
+            onChange={handleInputChange}
             placeholder="コメント"
             label="Note Description"
             labelHidden
